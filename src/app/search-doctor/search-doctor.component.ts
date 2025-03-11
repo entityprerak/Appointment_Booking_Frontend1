@@ -42,6 +42,9 @@ export class SearchDoctorComponent {
   }
 
   bookAppointment(doctor: any) {
-    this.router.navigate(['/book-appointment'], { queryParams: { doctor: doctor.name } });
+    this.router.navigate(['/book-appointment'], {
+      queryParams: { doctor: doctor.name, specialty: doctor.specialty } // ✅ Pass both values
+    });
   }
+  
 }

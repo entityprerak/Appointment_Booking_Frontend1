@@ -1,1 +1,39 @@
-<p>book-appointment works!</p>
+<div class="container book-appointment">
+    <div class="card">
+      <div class="card-header text-center bg-light">
+        <h4>Book Appointment</h4>
+      </div>
+      <div class="card-body">
+        <!-- Doctor Info -->
+        <div class="d-flex align-items-center mb-3">
+          <div class="doctor-avatar"></div>
+          <div class="ms-3">
+            <h5 class="mb-1">{{ doctor?.name }}</h5>
+            <p class="mb-1 text-muted">{{ doctor?.specialty }}</p>
+          </div>
+        </div>
+  
+        <!-- Date Picker -->
+        <h6>Select Date</h6>
+        <input type="date" class="form-control mb-3" [(ngModel)]="selectedDate">
+  
+        <!-- Time Slots -->
+        <h6>Select Time Slot</h6>
+        <div class="d-flex flex-wrap mb-3">
+          <button *ngFor="let time of availableTimes" class="btn btn-outline-primary me-2 mb-2"
+            [class.active]="selectedTime === time" (click)="selectTime(time)">
+            {{ time }}
+          </button>
+        </div>
+  
+        <!-- Reason for Visit -->
+        <h6>Reason for Visit</h6>
+        <textarea class="form-control mb-3" rows="3" [(ngModel)]="reasonForVisit"
+          placeholder="Brief description of your condition..."></textarea>
+  
+        <!-- Confirm Booking Button -->
+        <button class="btn btn-primary w-100" (click)="confirmBooking()">Confirm Booking</button>
+      </div>
+    </div> 
+  </div>
+  
