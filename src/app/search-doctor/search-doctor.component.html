@@ -1,0 +1,48 @@
+<div class="container search-doctor">
+  <div class="card">
+    <div class="card-header text-center bg-light">
+      <h4>Find a Doctor</h4>
+    </div>
+    <div class="card-body">
+      <!-- Search Bar -->
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Search by name, specialty or condition..."
+          [(ngModel)]="searchQuery" (input)="searchDoctors()">
+        <button class="btn btn-primary" type="button" (click)="searchDoctors()">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+
+      <!-- Specialty Filter -->
+      <h6>Specialty</h6>
+      <div class="d-flex flex-wrap mb-3">
+        <button *ngFor="let specialty of specialties" class="btn btn-outline-primary me-2 mb-2"
+          [class.active]="selectedSpecialty === specialty" (click)="filterBySpecialty(specialty)">
+          {{ specialty }}
+        </button>
+      </div>
+
+      <hr>
+
+      <!-- Doctor List -->
+      <div class="row">
+        <div *ngFor="let doctor of filteredDoctors" class="col-md-4 mb-3">
+          <div class="card doctor-card shadow-sm p-3">
+            <div class="d-flex align-items-center">
+              <div class="doctor-avatar me-3"></div>
+              <div>
+                <h6 class="mb-1">{{ doctor.name }}</h6>
+                <p class="mb-1 text-muted">{{ doctor.specialty }}</p>
+                <p class="mb-1">
+                  <span class="text-warning">⭐</span> {{ doctor.rating }} ({{ doctor.reviews }} reviews)
+                </p>
+              </div>
+            </div>
+            <button class="btn btn-primary w-100 mt-3" (click)="bookAppointment(doctor)">Book Now</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
