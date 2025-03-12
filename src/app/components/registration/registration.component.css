@@ -1,0 +1,22 @@
+.register-page {
+    margin-top: 50px;
+  }
+  
+  .card {
+    border-radius: 10px;
+    border: none;
+  }
+  
+  .card h3 {
+    font-weight: bold;
+  }
+  
+  .card .form-control {
+    border-radius: 8px;
+  }
+  
+  .card .btn {
+    border-radius: 8px;
+    font-weight: bold;
+  }
+  

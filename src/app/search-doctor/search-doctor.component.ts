@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgFor, NgIf } from '@angular/common'; // ✅ Required for *ngFor, *ngIf
 import { FormsModule } from '@angular/forms';  // ✅ Required for [(ngModel)]
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-search-doctor',
   templateUrl: './search-doctor.component.html',
   styleUrls: ['./search-doctor.component.scss'],
   standalone: true,
-  imports: [NgFor, NgIf, FormsModule] // ✅ Add necessary modules here
+  imports: [CommonModule, FormsModule] // ✅ Add necessary modules here
 })
 export class SearchDoctorComponent {
   searchQuery: string = '';
