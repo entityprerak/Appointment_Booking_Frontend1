@@ -9,7 +9,7 @@
                     <!-- Email -->
                     <div class="col-md-6 mb-3">
                         <div class="p-3 border rounded">
-                            <label>Email</label>
+                            <label class="fw-bold">Email</label>
                             <input type="email" class="form-control" formControlName="email" placeholder="Enter email">
                             <small class="text-danger" *ngIf="submitted && doctorRegistrationForm.get('email')?.errors">
                                 * Valid email is required
@@ -20,7 +20,7 @@
                     <!-- Doctor Name -->
                     <div class="col-md-6 mb-3">
                         <div class="p-3 border rounded">
-                            <label>Doctor Name</label>
+                            <label class="fw-bold">Doctor Name</label>
                             <input type="text" class="form-control" formControlName="doctorName" placeholder="Enter full name">
                             <small class="text-danger" *ngIf="submitted && doctorRegistrationForm.get('doctorName')?.errors">
                                 * Full name is required
@@ -33,7 +33,7 @@
                     <!-- Mobile -->
                     <div class="col-md-6 mb-3">
                         <div class="p-3 border rounded">
-                            <label>Mobile Number</label>
+                            <label class="fw-bold">Mobile Number</label>
                             <input type="text" class="form-control" formControlName="mobile" placeholder="Enter mobile number">
                             <small class="text-danger" *ngIf="submitted && doctorRegistrationForm.get('mobile')?.errors">
                                 * Enter a valid 10-digit number
@@ -44,7 +44,7 @@
                     <!-- Gender -->
                     <div class="col-md-6 mb-3">
                         <div class="p-3 border rounded">
-                            <label>Gender</label>
+                            <label class="fw-bold">Gender</label>
                             <select class="form-control" formControlName="gender">
                                 <option value="" disabled>Select gender</option>
                                 <option value="Male">Male</option>
@@ -62,7 +62,7 @@
                     <!-- Experience -->
                     <div class="col-md-6 mb-3">
                         <div class="p-3 border rounded">
-                            <label>Experience (in years)</label>
+                            <label class="fw-bold">Experience (in years)</label>
                             <input type="number" class="form-control" formControlName="experience" placeholder="Enter experience">
                             <small class="text-danger" *ngIf="submitted && doctorRegistrationForm.get('experience')?.errors">
                                 * Valid experience is required
@@ -73,7 +73,7 @@
                     <!-- Specialization -->
                     <div class="col-md-6 mb-3">
                         <div class="p-3 border rounded">
-                            <label>Specialization</label>
+                            <label class="fw-bold">Specialization</label>
                             <select class="form-control" formControlName="specialization">
                                 <option value="" disabled>Select specialization</option>
                                 <option *ngFor="let spec of specializations" [value]="spec">{{ spec }}</option>
@@ -89,7 +89,7 @@
                     <!-- Address -->
                     <div class="col-md-12 mb-3">
                         <div class="p-3 border rounded">
-                            <label>Address</label>
+                            <label class="fw-bold">Address</label>
                             <textarea class="form-control" formControlName="address" placeholder="Enter address"></textarea>
                             <small class="text-danger" *ngIf="submitted && doctorRegistrationForm.get('address')?.errors">
                                 * Address must be at least 10 characters
@@ -102,7 +102,7 @@
                     <!-- Password -->
                     <div class="col-md-6 mb-3">
                         <div class="p-3 border rounded">
-                            <label>Password</label>
+                            <label class="fw-bold">Password</label>
                             <input type="password" class="form-control" formControlName="password" placeholder="Enter password">
                             <small class="text-danger" *ngIf="submitted && doctorRegistrationForm.get('password')?.errors">
                                 * Min 6 characters required
@@ -113,7 +113,7 @@
                     <!-- Confirm Password -->
                     <div class="col-md-6 mb-3">
                         <div class="p-3 border rounded">
-                            <label>Confirm Password</label>
+                            <label class="fw-bold">Confirm Password</label>
                             <input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm password">
                             <small class="text-danger" *ngIf="submitted && doctorRegistrationForm.hasError('mismatch')">
                                 * Passwords do not match
