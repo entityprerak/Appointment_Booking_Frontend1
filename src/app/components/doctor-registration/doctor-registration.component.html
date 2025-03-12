@@ -1,0 +1,129 @@
+<div class="container registration-form">
+    <div class="card">
+        <div class="card-header text-center bg-light">
+            <h4>Doctor Registration</h4>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="doctorRegistrationForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <!-- Email -->
+                    <div class="col-md-6 mb-3">
+                        <div class="p-3 border rounded">
+                            <label>Email</label>
+                            <input type="email" class="form-control" formControlName="email" placeholder="Enter email">
+                            <small class="text-danger" *ngIf="submitted && doctorRegistrationForm.get('email')?.errors">
+                                * Valid email is required
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Doctor Name -->
+                    <div class="col-md-6 mb-3">
+                        <div class="p-3 border rounded">
+                            <label>Doctor Name</label>
+                            <input type="text" class="form-control" formControlName="doctorName" placeholder="Enter full name">
+                            <small class="text-danger" *ngIf="submitted && doctorRegistrationForm.get('doctorName')?.errors">
+                                * Full name is required
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Mobile -->
+                    <div class="col-md-6 mb-3">
+                        <div class="p-3 border rounded">
+                            <label>Mobile Number</label>
+                            <input type="text" class="form-control" formControlName="mobile" placeholder="Enter mobile number">
+                            <small class="text-danger" *ngIf="submitted && doctorRegistrationForm.get('mobile')?.errors">
+                                * Enter a valid 10-digit number
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="col-md-6 mb-3">
+                        <div class="p-3 border rounded">
+                            <label>Gender</label>
+                            <select class="form-control" formControlName="gender">
+                                <option value="" disabled>Select gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <small class="text-danger" *ngIf="submitted && doctorRegistrationForm.get('gender')?.errors">
+                                * Gender selection required
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Experience -->
+                    <div class="col-md-6 mb-3">
+                        <div class="p-3 border rounded">
+                            <label>Experience (in years)</label>
+                            <input type="number" class="form-control" formControlName="experience" placeholder="Enter experience">
+                            <small class="text-danger" *ngIf="submitted && doctorRegistrationForm.get('experience')?.errors">
+                                * Valid experience is required
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Specialization -->
+                    <div class="col-md-6 mb-3">
+                        <div class="p-3 border rounded">
+                            <label>Specialization</label>
+                            <select class="form-control" formControlName="specialization">
+                                <option value="" disabled>Select specialization</option>
+                                <option *ngFor="let spec of specializations" [value]="spec">{{ spec }}</option>
+                            </select>
+                            <small class="text-danger" *ngIf="submitted && doctorRegistrationForm.get('specialization')?.errors">
+                                * Specialization is required
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Address -->
+                    <div class="col-md-12 mb-3">
+                        <div class="p-3 border rounded">
+                            <label>Address</label>
+                            <textarea class="form-control" formControlName="address" placeholder="Enter address"></textarea>
+                            <small class="text-danger" *ngIf="submitted && doctorRegistrationForm.get('address')?.errors">
+                                * Address must be at least 10 characters
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <!-- Password -->
+                    <div class="col-md-6 mb-3">
+                        <div class="p-3 border rounded">
+                            <label>Password</label>
+                            <input type="password" class="form-control" formControlName="password" placeholder="Enter password">
+                            <small class="text-danger" *ngIf="submitted && doctorRegistrationForm.get('password')?.errors">
+                                * Min 6 characters required
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="col-md-6 mb-3">
+                        <div class="p-3 border rounded">
+                            <label>Confirm Password</label>
+                            <input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm password">
+                            <small class="text-danger" *ngIf="submitted && doctorRegistrationForm.hasError('mismatch')">
+                                * Passwords do not match
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 mt-3">Register</button>
+            </form>
+        </div>
+    </div>
+</div>

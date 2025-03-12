@@ -39,12 +39,17 @@ export class LoginComponent {
     }
   }
 
-  // Navigate to Registration Page
+  // Navigate to User Registration Page
   navigateToRegister() {
     this.router.navigate(['/register']);
   }
 
-  //  Helper function to show error messages instantly
+  // Navigate to Doctor Registration Page
+  navigateToRegisterDoctor() {
+    this.router.navigate(['/register-doctor']);
+  }
+
+  // Helper function to show error messages instantly
   hasError(controlName: string, errorName: string) {
     return this.loginForm.get(controlName)?.hasError(errorName) &&
            (this.loginForm.get(controlName)?.touched || this.submitted);
