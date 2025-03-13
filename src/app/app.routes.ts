@@ -6,6 +6,7 @@ import { SearchDoctorComponent } from './search-doctor/search-doctor.component';
 import { BookAppointmentComponent } from './components/book-appointment/book-appointment.component';
 import { DoctorRegistrationComponent } from './components/doctor-registration/doctor-registration.component';
 import { AdminManageDoctorsComponent } from './components/admin-manage-doctors/admin-manage-doctors.component';
+import { UserAppointmentsComponent } from './components/user-appointments/user-appointments.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },  // Redirects to login
@@ -15,5 +16,6 @@ export const routes: Routes = [
     {path: 'register-doctor', component: DoctorRegistrationComponent},
   { path: 'book-appointment', component: BookAppointmentComponent },
   {path: 'admin-manage-doctors',component: AdminManageDoctorsComponent},
+  {path: 'user-appointments',component: UserAppointmentsComponent },
   { path: '', redirectTo: '/search-doctor', pathMatch: 'full' }
 ];
