@@ -1,12 +1,27 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [CommonModule, RouterModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Healthcare_Appointment';
+  sidebarOpen = false;
+
+  constructor(private router: Router) {}
+
+  // ✅ Method to check if current page is login or register
+  isAuthPage(): boolean {
+    const authRoutes = ['/login', '/register'];
+    return authRoutes.includes(this.router.url);
+  }
+
+  // ✅ Sidebar toggle function
+  toggleSidebar() {
+    this.sidebarOpen = !this.sidebarOpen;
+  }
 }

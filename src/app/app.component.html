@@ -1,1 +1,30 @@
-<router-outlet></router-outlet>
+<div class="app-container">
+    <!-- Top Bar (Only visible on non-auth pages) -->
+    <div *ngIf="!isAuthPage()" class="top-bar d-flex align-items-center justify-content-between px-3">
+      <div class="menu-button" (click)="toggleSidebar()">
+        <div class="menu-icon">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+      </div>
+      <div class="user-profile">
+        <div class="user-avatar"></div>
+      </div>
+    </div>
+  
+    <div class="content-area">
+      <!-- Sidebar (Only visible on non-auth pages) -->
+      <div *ngIf="!isAuthPage()" class="sidebar" [ngClass]="{ 'sidebar-open': sidebarOpen }">
+        <div class="sidebar-item" routerLink="/search-doctor">Find a Doctor</div>
+        <div class="sidebar-item" routerLink="/book-appointment">Book Appointment</div>
+        <div class="sidebar-item" routerLink="/user-appointments">My Appointments</div>
+      </div>
+  
+      <!-- Main Content -->
+      <div class="main-content" [ngClass]="{ 'with-sidebar': !isAuthPage() }">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+  
