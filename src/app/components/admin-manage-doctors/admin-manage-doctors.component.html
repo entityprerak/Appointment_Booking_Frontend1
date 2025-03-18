@@ -2,76 +2,34 @@
     <!-- Tabs -->
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link" [class.active]="activeTab === 'slots'" (click)="activeTab = 'slots'">Manage Time Slots</a>
+            <a class="nav-link" [class.active]="activeTab === 'approvals'" (click)="activeTab = 'approvals'">Pending Approvals</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" [class.active]="activeTab === 'doctors'" (click)="activeTab = 'doctors'">Manage Doctors</a>
         </li>
     </ul>
 
-    <!-- Manage Time Slots -->
-    <div *ngIf="activeTab === 'slots'" class="mt-3">
+    <!-- Pending Approvals -->
+    <div *ngIf="activeTab === 'approvals'" class="mt-3">
         <div class="card shadow-sm">
-            <div class="card-header d-flex justify-content-between align-items-center bg-light">
-                <h4 class="mb-0">Manage Doctor Time Slots</h4>
-                <div>
-                    <button class="btn btn-outline-primary me-2 fw-bold" [class.btn-primary]="confirmClicked"
-                        (click)="confirmSlots()">Confirm Slots</button>
-                    
-                    <!-- Fixed Edit Slots Button -->
-                    <button class="btn fw-bold"
-                        [ngClass]="{ 
-                            'btn-outline-primary': !editMode, 
-                            'btn-success text-white': editMode 
-                        }"
-                        (click)="toggleEditMode()">
-                        {{ editMode ? 'Save Edits' : 'Edit Slots' }}
-                    </button>
-                </div>
+            <div class="card-header text-center bg-light">
+                <h4>Pending Doctor Approvals</h4>
             </div>
-
             <div class="card-body">
-                <!-- Date Picker -->
-                <div class="mb-3">
-                    <label class="fw-bold">Select Date:</label>
-                    <input type="date" class="form-control" [(ngModel)]="selectedDate" (change)="updateSlotsForDate()">
+                <div *ngIf="pendingApprovals.length === 0" class="text-center text-muted">
+                    No pending approvals.
                 </div>
-
-                <!-- Search & Filter Section -->
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Search doctors..." [(ngModel)]="searchQuery"
-                        (input)="searchDoctors()">
-                    <button class="btn btn-outline-primary" type="button" (click)="searchDoctors()">Search</button>
-                </div>
-
-                <div class="mb-3">
-                    <label class="fw-bold">Filter by Specialty:</label>
-                    <div class="d-flex flex-wrap">
-                        <button *ngFor="let specialty of specialties" class="btn btn-outline-primary me-2"
-                            [class.active]="selectedSpecialty === specialty"
-                            (click)="filterBySpecialty(specialty)">
-                            {{ specialty }}
-                        </button>
-                    </div>
-                </div>
-
-                <hr>
-
-                <!-- Doctor Time Slots -->
-                <div *ngFor="let doctor of filteredDoctors" class="mb-4">
-                    <h5>{{ doctor.name }} - {{ doctor.specialty }}</h5>
-                    <div class="d-flex flex-wrap">
-                        <button *ngFor="let slot of timeSlots"
-                            class="btn m-1"
-                            [ngClass]="{
-                                'btn-outline-dark': doctorSlots[selectedDate] && doctorSlots[selectedDate][doctor.id] && doctorSlots[selectedDate][doctor.id][slot] === 'available',
-                                'btn-primary': doctorSlots[selectedDate] && doctorSlots[selectedDate][doctor.id] && doctorSlots[selectedDate][doctor.id][slot] === 'selected',
-                                'btn-primary text-white': doctorSlots[selectedDate] && doctorSlots[selectedDate][doctor.id] && doctorSlots[selectedDate][doctor.id][slot] === 'confirmed' && !editMode,
-                                'btn-danger': doctorSlots[selectedDate] && doctorSlots[selectedDate][doctor.id] && doctorSlots[selectedDate][doctor.id][slot] === 'confirmed' && editMode
-                            }"
-                            (click)="toggleSlot(doctor.id, slot)">
-                            {{ slot }}
-                        </button>
+                <div class="row">
+                    <div *ngFor="let doctor of pendingApprovals" class="col-md-4 mb-3">
+                        <div class="card shadow-sm p-3">
+                            <h6>{{ doctor.name }}</h6>
+                            <p class="text-muted">{{ doctor.specialty }}</p>
+                            <p class="text-black">⭐ {{ doctor.rating }} ({{ doctor.reviews }} reviews)</p>
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-success w-50 me-2" (click)="approveDoctor(doctor.id)">Approve</button>
+                                <button class="btn btn-danger w-50" (click)="rejectDoctor(doctor.id)">Reject</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -102,7 +60,7 @@
                 <hr>
 
                 <div class="row">
-                    <div *ngFor="let doctor of filteredDoctors" class="col-md-4 mb-3">
+                    <div *ngFor="let doctor of approvedDoctors" class="col-md-4 mb-3">
                         <div class="card shadow-sm p-3">
                             <h6>{{ doctor.name }}</h6>
                             <p class="text-muted">{{ doctor.specialty }}</p>
