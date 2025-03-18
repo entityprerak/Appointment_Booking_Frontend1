@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-doctor-registration',
@@ -13,9 +15,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class DoctorRegistrationComponent {
   doctorRegistrationForm: FormGroup;
   submitted = false;
+  apiUrl = 'http://localhost:8020/doctors/register';
   specializations = ['Cardiology', 'Neurology', 'Pediatrics', 'Dermatology', 'Orthopedics'];
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {
     this.doctorRegistrationForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       doctorName: ['', [Validators.required, Validators.minLength(4)]],
@@ -40,7 +43,28 @@ export class DoctorRegistrationComponent {
     if (this.doctorRegistrationForm.invalid) {
       return;
     }
-    alert('Doctor Registration Successful!');
-    console.log(this.doctorRegistrationForm.value);
+
+    const formData = this.doctorRegistrationForm.value;
+    delete formData.confirmPassword; // Remove confirmPassword before sending
+
+    this.http.post(this.apiUrl, formData, { responseType: 'text', 
+      withCredentials: true
+    }).subscribe({
+      next: (response) => {
+        console.log('✅ Backend Response:', response);
+
+        if (typeof response === 'string' && response.toLowerCase().includes('success')) {
+          alert('✅ Registration Successful! 🎉');
+          sessionStorage.setItem('userEmail', formData.email); // Store user email
+        } else {
+          console.warn('⚠ Unexpected response format:', response);
+          alert('⚠ Registration completed, waiting for admin approval.');
+        }
+      },
+      error: (error) => {
+        console.error('❌ Registration Failed:', error);
+        alert('❌ Registration Failed. ' + (error.error || 'Please try again.'));
+      }
+    });
   }
 }

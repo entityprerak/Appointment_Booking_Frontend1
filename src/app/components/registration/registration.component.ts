@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-registration',
@@ -13,8 +15,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class RegistrationComponent {
   registrationForm: FormGroup;
   submitted = false;
+  apiUrl = 'http://localhost:8020/registeruser'
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {
     this.registrationForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]], 
       username: ['', [Validators.required, Validators.minLength(4)]], 
@@ -38,7 +41,27 @@ export class RegistrationComponent {
     if (this.registrationForm.invalid) {
       return; 
     }
-    alert('Registration Successful!');
-    console.log(this.registrationForm.value);
+    
+    const formData = this.registrationForm.value;
+    delete formData.confirmPassword; // Remove confirmPassword before sending
+
+    this.http.post(this.apiUrl, formData, { responseType: 'text' }).subscribe({
+      next: (response) => {
+        console.log('✅ Backend Response:', response);
+
+        if (typeof response === 'string' && response.toLowerCase().includes('success')) {
+          alert('✅ Registration Successful! 🎉');
+          sessionStorage.setItem('userEmail', formData.email); // Store user email
+          this.router.navigate(['/profile']); // Redirect to profile page
+        } else {
+          console.warn('⚠ Unexpected response format:', response);
+          alert('⚠ Registration completed, but unexpected response received.');
+        }
+      },
+      error: (error) => {
+        console.error('❌ Registration Failed:', error);
+        alert('❌ Registration Failed. ' + (error.error || 'Please try again.'));
+      }
+    });
   }
 }

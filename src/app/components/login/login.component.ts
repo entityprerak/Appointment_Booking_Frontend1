@@ -2,22 +2,27 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { AuthResponse } from '../../models/auth-response.model';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule]
+  imports: [ReactiveFormsModule, CommonModule, HttpClientModule, RouterModule]
 })
 export class LoginComponent {
 
   loginForm: FormGroup;
   submitted = false;
+  apiUrl = 'http://localhost:8020/loginuser';
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router, 
+    private http: HttpClient
   ) {
     // Create the Form with Validators
     this.loginForm = this.fb.group({
@@ -31,9 +36,25 @@ export class LoginComponent {
     this.submitted = true;
 
     if (this.loginForm.valid) {
-      console.log('Login Successful', this.loginForm.value);
+      const loginData = this.loginForm.value;
+
+      this.http.post<{userId: number}>('http://localhost:8020/loginuser', loginData).subscribe({
+        next: (response) => {
+    // this.http.post(this.apiUrl, loginData, { withCredentials: true }).subscribe({
+    // next: (response: any) => {
+      console.log('Login Successful', response);
+
+      // Store only the userId in sessionStorage
+      sessionStorage.setItem('userId', response.userId.toString());
+
       alert('Login Successful');
-      this.router.navigate(['/profile']);
+      this.router.navigate(['/patient-profile']);
+    },
+    error: (error) => {
+      console.error('Login Failed', error);
+      alert('Invalid email or password');
+    }
+  });
     } else {
       alert('Invalid email or password');
     }

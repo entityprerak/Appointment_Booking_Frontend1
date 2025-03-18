@@ -11,19 +11,23 @@ import { PatientProfileComponent } from './components/patient-profile/patient-pr
 import { DoctorProfileComponent } from './components/doctor-profile/doctor-profile.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { ViewDoctorAppointmentsComponent } from './view-doctor-appointments/view-doctor-appointments.component';
+import { AuthGuard } from './auth.guard';
+import { DoctorLoginComponent } from './components/doctor-login/doctor-login.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },  // Redirects to login
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegistrationComponent },
     { path: 'search-doctor', component: SearchDoctorComponent },
+    { path: 'login-doctor', component: DoctorLoginComponent },
     {path: 'register-doctor', component: DoctorRegistrationComponent},
   { path: 'book-appointment', component: BookAppointmentComponent },
   {path: 'admin-manage-doctors',component: AdminManageDoctorsComponent},
   {path: 'user-appointments',component: UserAppointmentsComponent },
-  {path: 'patient-profile',component: PatientProfileComponent},
-  {path: 'doctor-profile',component: DoctorProfileComponent},
+  {path: 'patient-profile',component: PatientProfileComponent, canActivate: [AuthGuard]},
+  {path: 'doctor-profile',component: DoctorProfileComponent, canActivate: [AuthGuard]},
   {path: 'edit-profile', component:EditProfileComponent},
   {path: 'view-doctor-appointments', component:ViewDoctorAppointmentsComponent},
-  { path: '', redirectTo: '/search-doctor', pathMatch: 'full' }
+  { path: '**', redirectTo: 'login' },
+  // { path: '', redirectTo: '/search-doctor', pathMatch: 'full' }
 ];
