@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, HttpClientModule, RouterModule]
+  imports: [ReactiveFormsModule, CommonModule, HttpClientModule]
 })
 export class LoginComponent {
 
@@ -38,7 +38,7 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       const loginData = this.loginForm.value;
 
-      this.http.post<{userId: number}>('http://localhost:8020/loginuser', loginData).subscribe({
+      this.http.post<AuthResponse>('http://localhost:8020/loginuser', loginData).subscribe({
         next: (response) => {
     // this.http.post(this.apiUrl, loginData, { withCredentials: true }).subscribe({
     // next: (response: any) => {
