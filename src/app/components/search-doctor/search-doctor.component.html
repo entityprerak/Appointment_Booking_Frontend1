@@ -31,10 +31,12 @@
             <div class="d-flex align-items-center">
               <div class="doctor-avatar me-3"></div>
               <div>
-                <h6 class="mb-1">{{ doctor.name }}</h6>
-                <p class="mb-1 text-muted">{{ doctor.specialty }}</p>
+                <h6 class="mb-1">{{ doctor.doctorname }}</h6>
+                <p class="mb-1 text-muted">{{ doctor.specialization }}</p>
+                <p class="mb-1 text-muted">Experience: {{ doctor.experience }} year(s)</p>
                 <p class="mb-1">
-                  <span class="text-warning">⭐</span> {{ doctor.rating }} ({{ doctor.reviews }} reviews)
+                  Rating:
+                  <span *ngFor="let star of [1, 2, 3, 4]" class="text-warning">⭐</span>
                 </p>
               </div>
             </div>

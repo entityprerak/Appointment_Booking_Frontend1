@@ -1,43 +1,63 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AppointmentService } from '../../services/appointment.service';
+import { firstValueFrom } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';  // ✅ Import FormsModule
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-book-appointment',
-  standalone: true,
-  imports: [CommonModule, FormsModule], // ✅ Add FormsModule for ngModel support
   templateUrl: './book-appointment.component.html',
-  styleUrls: ['./book-appointment.component.css']
+  styleUrls: ['./book-appointment.component.css'],
+  imports: [CommonModule, FormsModule]
 })
 export class BookAppointmentComponent {
-  doctor: any = null;
+  doctorId: number = 0;
+  specialty: string = '';
   selectedDate: string = '';
-  selectedTime: string = '';
+  selectedSlotId: number | null = null;
   reasonForVisit: string = '';
+  availableSlots: any[] = [];
 
-  availableTimes: string[] = ['10:00 AM', '11:00 AM', '1:00 PM', '3:00 PM'];
-
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router, private appointmentService: AppointmentService) {
     this.route.queryParams.subscribe(params => {
-      this.doctor = {
-        name: params['doctor'],
-        specialty: params['specialty']
-      };
+      this.doctorId = Number(params['doctorId']) || 0;
+      this.specialty = params['specialty'] || '';
     });
   }
 
-  selectTime(time: string): void {
-    this.selectedTime = time;
+  async fetchSlots() {
+    if (!this.selectedDate || !this.doctorId) return;
+    try {
+      this.availableSlots = await firstValueFrom(this.appointmentService.getAvailableSlots(this.doctorId, this.selectedDate));
+    } catch (error) {
+      console.error('Error fetching slots:', error);
+    }
   }
 
-  confirmBooking(): void {
-    if (!this.selectedDate || !this.selectedTime || !this.reasonForVisit) {
+  async confirmBooking() {
+    if (!this.selectedDate || !this.selectedSlotId || !this.reasonForVisit) {
       alert('Please fill all details before confirming the appointment.');
       return;
     }
 
-    alert(`Appointment booked with Dr. ${this.doctor.name} on ${this.selectedDate} at ${this.selectedTime}`);
-    this.router.navigate(['/']); // Redirect after booking
+    const appointmentDataDTO = {
+      doctorId: this.doctorId ,
+      slotId: this.selectedSlotId,
+      userId: Number(sessionStorage.getItem('userId')),
+      date: this.selectedDate,
+      problem: this.reasonForVisit
+    };
+
+    console.log('Sending Appointment Data:', appointmentDataDTO);
+
+    try {
+      await firstValueFrom(this.appointmentService.bookAppointment(appointmentDataDTO));
+      alert('Appointment booked successfully!');
+      this.router.navigate(['/']);
+    } catch (error) {
+      console.error('Error booking appointment:', error);
+      alert('Failed to book the appointment. Please try again.');
+    }
   }
 }

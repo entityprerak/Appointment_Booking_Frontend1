@@ -24,4 +24,12 @@ export class AppComponent {
   toggleSidebar() {
     this.sidebarOpen = !this.sidebarOpen;
   }
+
+  isAdmin(): boolean {
+    return sessionStorage.getItem('role') === 'ROLE_ADMIN';
+  }
+
+  isUser(): boolean {
+    return sessionStorage.getItem('role') === 'ROLE_USER';
+  }
 }

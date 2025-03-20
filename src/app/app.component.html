@@ -15,10 +15,17 @@
   
     <div class="content-area">
       <!-- Sidebar (Only visible on non-auth pages) -->
-      <div *ngIf="!isAuthPage()" class="sidebar" [ngClass]="{ 'sidebar-open': sidebarOpen }">
-        <div class="sidebar-item" routerLink="/search-doctor">Find a Doctor</div>
-        <div class="sidebar-item" routerLink="/book-appointment">Book Appointment</div>
+
+      <div *ngIf="isAdmin() && !isAuthPage()" class="sidebar" [ngClass]="{ 'sidebar-open': sidebarOpen }">
+        <div class="sidebar-item" routerLink="/admin-manage-users">Manage Users</div>
+        <div class="sidebar-item" routerLink="/admin-manage-doctors">Manage Doctors</div>
+        <div class="sidebar-item" routerLink="/admin-dashboard">My Admin Dashboard</div>
+      </div>
+
+      <div *ngIf="isUser() && !isAuthPage()" class="sidebar" [ngClass]="{ 'sidebar-open': sidebarOpen }">
+        <div class="sidebar-item" routerLink="/search-doctor">Book Appointment</div>
         <div class="sidebar-item" routerLink="/user-appointments">My Appointments</div>
+        <div class="sidebar-item" routerLink="/patient-profile">My Profile</div>
       </div>
   
       <!-- Main Content -->

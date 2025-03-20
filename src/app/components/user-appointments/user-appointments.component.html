@@ -4,7 +4,7 @@
     <div class="header">
       <h1>My Appointments</h1>
     </div>
-    
+
     <!-- Tabs -->
     <div class="tabs">
       <button 
@@ -19,84 +19,38 @@
         (click)="setActiveTab('past')">
         Past
       </button>
-      <button 
-        class="tab-button" 
-        [class.active]="activeTab === 'cancelled'" 
-        (click)="setActiveTab('cancelled')">
-        Cancelled
-      </button>
     </div>
-    
-    <!-- Filter Section -->
-    <div class="filter-section">
-      <span class="filter-label">Filter by:</span>
-      
-      <div class="filter-dropdown">
-        <button class="dropdown-button" (click)="toggleDoctorDropdown()">
-          {{ selectedDoctor || 'All Doctors' }}
-          <span class="dropdown-arrow">▼</span>
-        </button>
-        <div class="dropdown-content" *ngIf="showDoctorDropdown">
-          <a (click)="selectDoctor('All Doctors')">All Doctors</a>
-          <a *ngFor="let doctor of doctors" (click)="selectDoctor(doctor)">{{ doctor }}</a>
-        </div>
-      </div>
-      
-      <div class="filter-dropdown">
-        <button class="dropdown-button" (click)="toggleDateDropdown()">
-          {{ selectedDate || 'Any Date' }}
-          <span class="dropdown-arrow">▼</span>
-        </button>
-        <div class="dropdown-content" *ngIf="showDateDropdown">
-          <a (click)="selectDate('Any Date')">Any Date</a>
-          <a (click)="selectDate('Today')">Today</a>
-          <a (click)="selectDate('This Week')">This Week</a>
-          <a (click)="selectDate('This Month')">This Month</a>
-        </div>
-      </div>
-      
-      <div class="filter-dropdown">
-        <button class="dropdown-button" (click)="toggleTypeDropdown()">
-          {{ selectedType || 'Any Type' }}
-          <span class="dropdown-arrow">▼</span>
-        </button>
-        <div class="dropdown-content" *ngIf="showTypeDropdown">
-          <a (click)="selectType('Any Type')">Any Type</a>
-          <a *ngFor="let type of appointmentTypes" (click)="selectType(type)">{{ type }}</a>
-        </div>
-      </div>
-      
-      <div class="search-box">
-        <input 
-          type="text" 
-          placeholder="Search..." 
-          [(ngModel)]="searchQuery"
-          (input)="filterAppointments()">
-      </div>
-    </div>
-    
-    <!-- Appointments List -->
+
+    <!-- Appointments Section -->
     <div class="appointments-list">
-      <div class="appointment-card" *ngFor="let appointment of filteredAppointments">
-        <h2>{{ appointment.doctorName }} - {{ appointment.specialty }}</h2>
-        <p class="appointment-date">{{ appointment.date | date:'EEEE, MMMM d, y' }} • {{ appointment.time }}</p>
-        <p class="appointment-description">{{ appointment.description }}</p>
-        <div class="appointment-actions">
-          <button class="btn-cancel" (click)="cancelAppointment(appointment.id)">Cancel</button>
-          <button class="btn-action" (click)="rescheduleAppointment(appointment.id)">Reschedule</button>
-        
-        </div>
-      </div>
+      <ng-container *ngIf="activeTab === 'upcoming'">
+        <ng-container *ngIf="upcomingAppointments.length; else noAppointments">
+          <div class="appointment-card" *ngFor="let appointment of upcomingAppointments">
+            <h2>{{ appointment.doctorName }} - {{ appointment.specialty }}</h2>
+            <p class="appointment-date">{{ appointment.date | date:'EEEE, MMMM d, y' }} • {{ appointment.time }}</p>
+            <p class="appointment-description">{{ appointment.description }}</p>
+            <button class="btn-cancel" (click)="cancelAppointment(appointment.id)">Cancel</button>
+          </div>
+        </ng-container>
+      </ng-container>
       
-      <div class="no-appointments" *ngIf="filteredAppointments.length === 0">
-        No appointments found matching your criteria.
-      </div>
-    </div>
-    
-    <!-- Navigation -->
-    <div class="navigation">
-      <span>Page 1 of 1</span>
-      <button class="btn-book-new" (click)="bookNewAppointment()">Book New</button>
+      <!-- Past Appointments Section -->
+      <ng-container *ngIf="activeTab === 'past'">
+        <ng-container *ngIf="pastAppointments.length; else noAppointments">
+          <div class="appointment-card" *ngFor="let appointment of pastAppointments">
+            <h2>{{ appointment.doctorName }} - {{ appointment.specialty }}</h2>
+            <p class="appointment-date">{{ appointment.date | date:'EEEE, MMMM d, y' }} • {{ appointment.time }}</p>
+            <p class="appointment-description">{{ appointment.description }}</p>
+          </div>
+        </ng-container>
+      </ng-container>
+      
+      <!-- Fallback Message for No Appointments -->
+      <ng-template #noAppointments>
+        <div class="no-appointments">
+          No appointments found.
+        </div>
+      </ng-template>
     </div>
   </div>
 </div>

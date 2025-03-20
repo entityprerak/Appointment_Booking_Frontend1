@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 import { LoginComponent } from './components/login/login.component';
 import { RegistrationComponent } from './components/registration/registration.component';
-import { SearchDoctorComponent } from './search-doctor/search-doctor.component';
+
 import { BookAppointmentComponent } from './components/book-appointment/book-appointment.component';
 import { DoctorRegistrationComponent } from './components/doctor-registration/doctor-registration.component';
 import { AdminManageDoctorsComponent } from './components/admin-manage-doctors/admin-manage-doctors.component';
@@ -13,6 +13,9 @@ import { EditProfileComponent } from './components/edit-profile/edit-profile.com
 import { ViewDoctorAppointmentsComponent } from './view-doctor-appointments/view-doctor-appointments.component';
 import { AuthGuard } from './auth.guard';
 import { DoctorLoginComponent } from './components/doctor-login/doctor-login.component';
+import { SearchDoctorComponent } from './components/search-doctor/search-doctor.component';
+import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
+import { AdminManageUsersComponent } from './components/admin-manage-users/admin-manage-users.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },  // Redirects to login
@@ -28,6 +31,9 @@ export const routes: Routes = [
   {path: 'doctor-profile',component: DoctorProfileComponent, canActivate: [AuthGuard]},
   {path: 'edit-profile', component:EditProfileComponent},
   {path: 'view-doctor-appointments', component:ViewDoctorAppointmentsComponent},
-  { path: '**', redirectTo: 'login' },
+  {path: 'admin-dashboard', component:AdminDashboardComponent},
+  {path: 'admin-manage-doctors', component:AdminManageDoctorsComponent},
+  {path: 'admin-manage-users', component:AdminManageUsersComponent}
+  // { path: '**', redirectTo: 'login' }
   // { path: '', redirectTo: '/search-doctor', pathMatch: 'full' }
 ];

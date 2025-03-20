@@ -38,6 +38,15 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       const loginData = this.loginForm.value;
 
+      if (loginData.email === 'admin@gmail.com' && loginData.password === 'admin123') {
+        console.log('Admin Login Successful');
+
+        sessionStorage.setItem('role', 'ROLE_ADMIN');
+
+        this.router.navigate(['/admin-dashboard']);
+        return;
+      }
+
       this.http.post<AuthResponse>('http://localhost:8020/loginuser', loginData).subscribe({
         next: (response) => {
     // this.http.post(this.apiUrl, loginData, { withCredentials: true }).subscribe({
@@ -46,6 +55,8 @@ export class LoginComponent {
 
       // Store only the userId in sessionStorage
       sessionStorage.setItem('userId', response.userId.toString());
+      sessionStorage.setItem('role', 'ROLE_USER');
+      
 
       alert('Login Successful');
       this.router.navigate(['/patient-profile']);

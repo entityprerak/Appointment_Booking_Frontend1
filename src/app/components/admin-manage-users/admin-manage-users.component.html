@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="card shadow-sm">
+      <div class="card-header text-center bg-light">
+        <h4>Registered Users</h4>
+      </div>
+  
+      <div class="card-body" *ngIf="!loading && users.length > 0">
+        <div class="row">
+          <div *ngFor="let user of users" class="col-md-4 mb-3">
+            <div class="card shadow-sm p-3">
+              <h6>{{ user.username }}</h6>
+              <p class="text-muted">{{ user.email }}</p>
+              <p>Age: {{ user.age }}</p>
+              <p>Gender: {{ user.gender }}</p>
+              <p>Address: {{ user.address }}</p>
+              <p class="text-black">Appointments: {{ user.appointmentCount }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div *ngIf="loading" class="text-center mt-4">
+        <p>Loading users...</p>
+      </div>
+  
+      <div *ngIf="!loading && users.length === 0" class="text-center mt-4">
+        <p>No users found.</p>
+      </div>
+  
+      <div *ngIf="errorMessage" class="text-danger text-center mt-4">
+        {{ errorMessage }}
+      </div>
+    </div>
+  </div>
+  

@@ -5,12 +5,12 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class DoctorService {
-  private apiUrl = 'http://localhost:8020/doctors'; // Adjust URL if needed
+export class SlotService {
+  private apiUrl = 'http://localhost:8020/slots'; // Adjust URL if needed
 
   constructor(private http: HttpClient) {}
 
-  getDoctorById(id: number): Observable<any> {
+  getSlotById(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 }

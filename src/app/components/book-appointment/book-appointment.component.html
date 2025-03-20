@@ -1,39 +1,29 @@
-<div class="container book-appointment">
-    <div class="card">
-      <div class="card-header text-center bg-light">
-        <h4>Book Appointment</h4>
-      </div>
-      <div class="card-body">
-        <!-- Doctor Info -->
-        <div class="d-flex align-items-center mb-3">
-          <div class="doctor-avatar"></div>
-          <div class="ms-3">
-            <h5 class="mb-1">{{ doctor?.name }}</h5>
-            <p class="mb-1 text-muted">{{ doctor?.specialty }}</p>
-          </div>
-        </div>
-  
-        <!-- Date Picker -->
-        <h6>Select Date</h6>
-        <input type="date" class="form-control mb-3" [(ngModel)]="selectedDate">
-  
-        <!-- Time Slots -->
-        <h6>Select Time Slot</h6>
-        <div class="d-flex flex-wrap mb-3">
-          <button *ngFor="let time of availableTimes" class="btn btn-outline-primary me-2 mb-2"
-            [class.active]="selectedTime === time" (click)="selectTime(time)">
-            {{ time }}
-          </button>
-        </div>
-  
-        <!-- Reason for Visit -->
-        <h6>Reason for Visit</h6>
-        <textarea class="form-control mb-3" rows="3" [(ngModel)]="reasonForVisit"
-          placeholder="Brief description of your condition..."></textarea>
-  
-        <!-- Confirm Booking Button -->
-        <button class="btn btn-primary w-100" (click)="confirmBooking()">Confirm Booking</button>
-      </div>
-    </div> 
+<div class="container mt-5">
+  <h2>Book Appointment</h2>
+  <div *ngIf="doctorId">
+    <h5 class="mb-1">Doctor ID: {{ doctorId }}</h5>
+    <p class="mb-1 text-muted" *ngIf="specialty">Specialty: {{ specialty }}</p>
   </div>
-  
+
+  <div class="form-group">
+    <label for="date">Select Date:</label>
+    <input type="date" id="date" class="form-control" [(ngModel)]="selectedDate" (change)="fetchSlots()" />
+  </div>
+
+  <div *ngIf="availableSlots && availableSlots.length > 0">
+    <h5>Select a Time Slot</h5>
+    <div class="btn-group" role="group" aria-label="Time Slots">
+      <button *ngFor="let slot of availableSlots" class="btn btn-outline-primary"
+              [class.active]="selectedSlotId === slot.id" (click)="selectedSlotId = slot.id">
+        {{ slot.startTime }} - {{ slot.endTime }}
+      </button>
+    </div>
+  </div>
+
+  <div class="form-group mt-3">
+    <label for="reason">Reason for Visit:</label>
+    <textarea id="reason" class="form-control" rows="3" [(ngModel)]="reasonForVisit"></textarea>
+  </div>
+
+  <button class="btn btn-primary mt-3" (click)="confirmBooking()">Confirm Appointment</button>
+</div>

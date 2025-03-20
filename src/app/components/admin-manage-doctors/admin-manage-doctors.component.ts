@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { firstValueFrom } from 'rxjs';
+import { ManageDoctorService } from '../../services/manage-doctor.service';
 
 @Component({
   selector: 'app-admin-manage-doctors',
@@ -11,76 +13,65 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule, FormsModule]
 })
 export class AdminManageDoctorsComponent {
-  activeTab: 'approvals' | 'doctors' = 'approvals'; // Default tab to Pending Approvals
-  searchQuery: string = '';
-  selectedSpecialty: string | null = 'All';
+  activeTab: 'approvals' | 'doctors' = 'approvals';
+  pendingApprovals: any[] = [];
+  approvedDoctors: any[] = [];
   showToast = false;
   toastMessage = '';
 
-  specialties: string[] = ['All', 'Cardiology', 'Neurology', 'Pediatrics', 'Dermatology', 'Orthopedics'];
+  constructor(private manageDoctorService: ManageDoctorService) {}
 
-  // List of doctors waiting for approval
-  pendingApprovals = [
-    { id: 1, name: 'Dr. Alex Brown', specialty: 'Pediatrics', rating: 4.7, reviews: 30 },
-    { id: 2, name: 'Dr. Emily Green', specialty: 'Cardiology', rating: 4.8, reviews: 25 },
-    { id: 3, name: 'Dr. Ryan Cooper', specialty: 'Neurology', rating: 4.6, reviews: 28 }
-  ];
+  ngOnInit(): void {
+    this.fetchPendingDoctors();
+    this.fetchApprovedDoctors();
+  }
 
-  // List of approved doctors
-  approvedDoctors = [
-    { id: 4, name: 'Dr. Jane Smith', specialty: 'Dermatology', rating: 5, reviews: 48 },
-    { id: 5, name: 'Dr. Michael Johnson', specialty: 'Dermatology', rating: 4, reviews: 36 },
-    { id: 6, name: 'Dr. Sarah Williams', specialty: 'Cardiology', rating: 5, reviews: 52 },
-    { id: 7, name: 'Dr. John Doe', specialty: 'Neurology', rating: 4.5, reviews: 40 }
-  ];
-
-  constructor(private router: Router) {}
-
-  // Approve a doctor
-  approveDoctor(doctorId: number) {
-    const doctor = this.pendingApprovals.find(doc => doc.id === doctorId);
-    if (doctor) {
-      this.approvedDoctors.push(doctor);
-      this.pendingApprovals = this.pendingApprovals.filter(doc => doc.id !== doctorId);
-      this.showToastMessage(`Approved Dr. ${doctor.name}`);
+  // Fetch pending doctors
+  async fetchPendingDoctors() {
+    try {
+      this.pendingApprovals = await this.manageDoctorService.getPendingDoctors();
+    } catch (error) {
+      console.error('Error fetching pending doctors:', error);
     }
   }
 
-  // Reject a doctor
-  rejectDoctor(doctorId: number) {
-    const doctor = this.pendingApprovals.find(doc => doc.id === doctorId);
-    if (doctor) {
-      this.pendingApprovals = this.pendingApprovals.filter(doc => doc.id !== doctorId);
-      this.showToastMessage(`Rejected Dr. ${doctor.name}`);
+  // Fetch approved doctors
+  async fetchApprovedDoctors() {
+    try {
+      this.approvedDoctors = await this.manageDoctorService.getApprovedDoctors();
+    } catch (error) {
+      console.error('Error fetching approved doctors:', error);
     }
   }
 
-  // Search doctors based on query
-  searchDoctors() {
-    this.approvedDoctors = this.approvedDoctors.filter(doctor =>
-      doctor.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      doctor.specialty.toLowerCase().includes(this.searchQuery.toLowerCase())
-    );
+  // Approve doctor and move to approved tab
+  async approveDoctor(doctorId: number) {
+    if (confirm('Are you sure you want to approve this doctor?')) {
+      try {
+        await this.manageDoctorService.approveDoctor(doctorId);
+        this.showToastMessage('Doctor approved successfully!');
+        this.fetchPendingDoctors();
+        this.fetchApprovedDoctors();
+      } catch (error) {
+        console.error('Error approving doctor:', error);
+      }
+    }
   }
 
-  // Filter doctors by specialty
-  filterBySpecialty(specialty: string) {
-    this.selectedSpecialty = specialty;
-    this.approvedDoctors = specialty === 'All' ? [...this.approvedDoctors] : this.approvedDoctors.filter(doctor => doctor.specialty === specialty);
+  // Reject doctor after confirmation
+  async rejectDoctor(doctorId: number) {
+    if (confirm('Are you sure you want to reject this doctor? This action cannot be undone.')) {
+      try {
+        await this.manageDoctorService.rejectDoctor(doctorId);
+        this.showToastMessage('Doctor rejected successfully!');
+        this.fetchPendingDoctors();
+      } catch (error) {
+        console.error('Error rejecting doctor:', error);
+      }
+    }
   }
 
-  // Remove doctor from approved list
-  removeDoctor(doctorId: number) {
-    this.approvedDoctors = this.approvedDoctors.filter(doctor => doctor.id !== doctorId);
-    this.showToastMessage("Doctor removed successfully!");
-  }
-
-  // Save doctor list changes
-  saveDoctors() {
-    this.showToastMessage("Doctor details saved successfully!");
-  }
-
-  // Display toast notification
+  // Toast Notification
   showToastMessage(message: string) {
     this.toastMessage = message;
     this.showToast = true;
