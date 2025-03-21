@@ -81,6 +81,10 @@ export class LoginComponent {
     this.router.navigate(['/register-doctor']);
   }
 
+  navigateToLoginDoctor() {
+    this.router.navigate(['/login-doctor']);
+  }
+
   // Helper function to show error messages instantly
   hasError(controlName: string, errorName: string) {
     return this.loginForm.get(controlName)?.hasError(errorName) &&

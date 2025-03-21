@@ -59,6 +59,7 @@ export class DoctorRegistrationComponent {
         } else {
           console.warn('⚠ Unexpected response format:', response);
           alert('⚠ Registration completed, waiting for admin approval.');
+          this.router.navigate(['/login']);
         }
       },
       error: (error) => {

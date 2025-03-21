@@ -1,0 +1,59 @@
+<div class="container mt-4">
+  <div class="card shadow col-md-8 mx-auto">
+    <div class="card-header d-flex justify-content-center bg-light text-center">
+      <h4>Doctor's Appointments</h4>
+    </div>
+    <div class="card-body">
+      
+      <!-- Tabs for Appointment Types -->
+      <ul class="nav nav-tabs mb-3">
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeTab === 'active'" (click)="switchTab('active')">Active Appointments</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [class.active]="activeTab === 'past'" (click)="switchTab('past')">Past Appointments</a>
+        </li>
+      </ul>
+
+      <!-- Active Appointments Section -->
+      <div *ngIf="activeTab === 'active'">
+        <div *ngIf="activeAppointments.length === 0" class="text-center text-muted">
+          No active appointments.
+        </div>
+        <div *ngFor="let appointment of activeAppointments" class="card mb-3 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ appointment.userName }}</h5>
+            <p class="card-text">
+              <strong>Date:</strong> {{ appointment.date }} <br>
+              <strong>Time:</strong> {{ appointment.start_time }} - {{ appointment.end_time }} <br>
+              <strong>Reason:</strong> {{ appointment.problem }}
+            </p>
+            <button *ngIf="appointment.appointmentStatus === 'Upcoming'" class="btn btn-success" (click)="completeAppointment(appointment.id)">
+              Mark as Complete
+            </button>
+            <span *ngIf="appointment.appointmentStatus === 'Completed'" class="badge bg-secondary">Completed</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Past Appointments Section -->
+      <div *ngIf="activeTab === 'past'">
+        <div *ngIf="pastAppointments.length === 0" class="text-center text-muted">
+          No past appointments.
+        </div>
+        <div *ngFor="let appointment of pastAppointments" class="card mb-3 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">{{ appointment.userName }}</h5>
+            <p class="card-text">
+              <strong>Date:</strong> {{ appointment.date }} <br>
+              <strong>Time:</strong> {{ appointment.start_time }} - {{ appointment.end_time }} <br>
+              <strong>Reason:</strong> {{ appointment.problem }}
+            </p>
+            <span class="badge bg-secondary">Completed</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,44 +1,29 @@
-<div class="container doctor-profile">
-    <div class="card shadow">
-      <div class="card-header text-center bg-light">
-        <h4>Doctor Profile</h4>
-      </div>
-      <div class="card-body">
-        <div class="row">
-          <!-- Doctor Avatar -->
-          <div class="col-md-3 text-center">
-            <div class="doctor-avatar">
-              <img [src]="doctor.imageUrl" class="rounded-circle img-fluid" alt="Doctor Image">
-            </div>
-          </div>
-  
-          <!-- Doctor Details -->
-          <div class="col-md-9">
-            <h5 class="fw-bold">{{ doctor.name }}</h5>
-            <p class="text-muted mb-1">{{ doctor.specialization }} | {{ doctor.experience }} years experience</p>
-            <p class="text-muted"><i class="bi bi-geo-alt"></i> {{ doctor.address }}</p>
-            
-            <hr>
-  
-            <div class="row">
-              <div class="col-md-6">
-                <p><strong>Email:</strong> {{ doctor.email }}</p>
-                <p><strong>Gender:</strong> {{ doctor.gender }}</p>
-                <p><strong>Phone:</strong> {{ doctor.phone }}</p>
-              </div>
-              <div class="col-md-6">
-                <p><strong>Qualifications:</strong> {{ doctor.qualifications }}</p>
-                <p><strong>Consultation Fee:</strong> ₹{{ doctor.fee }}</p>
-                <p><strong>Availability:</strong> {{ doctor.availability }}</p>
-              </div>
+<div class="container-fluid">
+  <div class="row">
+    <!-- Doctor Profile Card (Centered) -->
+    <div class="col-md-9 d-flex justify-content-center align-items-center">
+      <div class="card shadow" style="width: 600px;">
+        <div class="card-header text-center bg-light">
+          <h4>Doctor Profile</h4>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <!-- Doctor Details (Evenly Spread Across Card) -->
+            <div class="col-md-6">
+              <h5 class="fw-bold">{{ doctor.name }}</h5>
+              <p class="text-muted mb-1"><strong>Specialization:</strong> {{ doctor.specialization }}</p>
+              <p class="text-muted"><strong>Experience:</strong> {{ doctor.experience }} years</p>
+              <p class="text-muted"><i class="bi bi-geo-alt"></i> <strong>Address:</strong> {{ doctor.address }}</p>
             </div>
   
-            <button class="btn btn-primary w-100 mt-3 fw-bold" (click)="editProfile()">
-              Edit Profile
-            </button>
+            <div class="col-md-6">
+              <p><strong>Email:</strong> {{ doctor.email }}</p>
+              <p><strong>Gender:</strong> {{ doctor.gender }}</p>
+              <p><strong>Phone:</strong> {{ doctor.mobile }}</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
+</div>

@@ -8,9 +8,17 @@
           <div class="bar"></div>
         </div>
       </div>
-      <div class="user-profile">
-        <div class="user-avatar"></div>
-      </div>
+        <div class="profile-container">
+    <!-- Profile Icon (You can replace the emoji with an actual profile image) -->
+    <div class="profile-icon" (click)="toggleDropdown()">
+      👤
+    </div>
+
+    <!-- Dropdown Menu -->
+    <div class="dropdown-menu" *ngIf="showDropdown">
+      <button (click)="logout()">Logout</button>
+    </div>
+  </div>
     </div>
   
     <div class="content-area">
@@ -20,6 +28,11 @@
         <div class="sidebar-item" routerLink="/admin-manage-users">Manage Users</div>
         <div class="sidebar-item" routerLink="/admin-manage-doctors">Manage Doctors</div>
         <div class="sidebar-item" routerLink="/admin-dashboard">My Admin Dashboard</div>
+      </div>
+
+      <div *ngIf="isDoctor() && !isAuthPage()" class="sidebar" [ngClass]="{ 'sidebar-open': sidebarOpen }">
+        <div class="sidebar-item" routerLink="/view-doctor-appointments">Manage Appointments</div>
+        <div class="sidebar-item" routerLink="/doctor-profile">My Profile</div>
       </div>
 
       <div *ngIf="isUser() && !isAuthPage()" class="sidebar" [ngClass]="{ 'sidebar-open': sidebarOpen }">

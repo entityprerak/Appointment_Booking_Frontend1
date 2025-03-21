@@ -52,7 +52,7 @@ export class RegistrationComponent {
         if (typeof response === 'string' && response.toLowerCase().includes('success')) {
           alert('✅ Registration Successful! 🎉');
           sessionStorage.setItem('userEmail', formData.email); // Store user email
-          this.router.navigate(['/profile']); // Redirect to profile page
+          this.router.navigate(['/login']); // Redirect to profile page
         } else {
           console.warn('⚠ Unexpected response format:', response);
           alert('⚠ Registration completed, but unexpected response received.');

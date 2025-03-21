@@ -54,7 +54,7 @@ export class BookAppointmentComponent {
     try {
       await firstValueFrom(this.appointmentService.bookAppointment(appointmentDataDTO));
       alert('Appointment booked successfully!');
-      this.router.navigate(['/']);
+      this.router.navigate(['/user-appointments']);
     } catch (error) {
       console.error('Error booking appointment:', error);
       alert('Failed to book the appointment. Please try again.');

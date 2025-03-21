@@ -27,8 +27,8 @@
         <ng-container *ngIf="upcomingAppointments.length; else noAppointments">
           <div class="appointment-card" *ngFor="let appointment of upcomingAppointments">
             <h2>{{ appointment.doctorName }} - {{ appointment.specialty }}</h2>
-            <p class="appointment-date">{{ appointment.date | date:'EEEE, MMMM d, y' }} • {{ appointment.time }}</p>
-            <p class="appointment-description">{{ appointment.description }}</p>
+            <p class="appointment-date">{{ appointment.date | date:'EEEE, MMMM d, y' }} • {{ appointment.start_time }} - {{ appointment.end_time }}</p>
+            <p class="appointment-description">{{ appointment.problem }}</p>
             <button class="btn-cancel" (click)="cancelAppointment(appointment.id)">Cancel</button>
           </div>
         </ng-container>
@@ -39,8 +39,8 @@
         <ng-container *ngIf="pastAppointments.length; else noAppointments">
           <div class="appointment-card" *ngFor="let appointment of pastAppointments">
             <h2>{{ appointment.doctorName }} - {{ appointment.specialty }}</h2>
-            <p class="appointment-date">{{ appointment.date | date:'EEEE, MMMM d, y' }} • {{ appointment.time }}</p>
-            <p class="appointment-description">{{ appointment.description }}</p>
+            <p class="appointment-date">{{ appointment.date | date:'EEEE, MMMM d, y' }} • {{ appointment.start_time }} - {{ appointment.end_time }}</p>
+            <p class="appointment-description">{{ appointment.problem }}</p>
           </div>
         </ng-container>
       </ng-container>

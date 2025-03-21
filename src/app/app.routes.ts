@@ -10,7 +10,7 @@ import { UserAppointmentsComponent } from './components/user-appointments/user-a
 import { PatientProfileComponent } from './components/patient-profile/patient-profile.component';
 import { DoctorProfileComponent } from './components/doctor-profile/doctor-profile.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
-import { ViewDoctorAppointmentsComponent } from './view-doctor-appointments/view-doctor-appointments.component';
+import { ViewDoctorAppointmentsComponent } from './components/view-doctor-appointments/view-doctor-appointments.component';
 import { AuthGuard } from './auth.guard';
 import { DoctorLoginComponent } from './components/doctor-login/doctor-login.component';
 import { SearchDoctorComponent } from './components/search-doctor/search-doctor.component';
